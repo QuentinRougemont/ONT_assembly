@@ -58,6 +58,9 @@ fastq should be compressed
 
 #  1. jellyfish and genome scope 
 
+
+purpose: extract various info (het%, genome length, repeat from raw reads)
+
 ```sh
 
 cd 01.RawData
@@ -83,6 +86,8 @@ done
 
 #  2. read trimming (length and qual)
 
+purpose: trimm read
+
 ```sh
 cp 01.RawData/genome_list .
 for file in $(cat genome_list ) ; do 
@@ -106,7 +111,10 @@ done
 
 # 3. run flye
 
-see  `00_scripts/02.flye.sh` adjust parameters following your needs
+purpose: assemble the genome into a reference  
+
+see  `00_scripts/02.flye.sh` adjust parameters following your needs  
+
 
 
 # 4. align ONT read with Minimap to their references
@@ -119,6 +127,10 @@ for i in $(cat genome_list ) ; do ./00_scripts/03.minimap.sh $i ; done
 
 
 # 5. run marginPolish
+
+purpose: genome polishing from the ONT read  
+ 
+/!\ beware to modify the json params files according to your needs
 
 
 dependencies: I run it through Docker singularity
@@ -140,7 +152,9 @@ for genome in $(cat genome_list ) ; do
 done 
 ```
 
-# 7. run pillon
+# 7. run pilon
+
+purpose: perform error correction based on short and more accurate reads
 
 * trimm short reads 
 
@@ -155,30 +169,35 @@ see `00_scripts/06.bwa.mem.sh`
 see `00_scripts/07.pilon.sh`
 
 
-# 8. run busco again and look at the improvment
+# 8. run busco again 
+
+and look at the improvment...
 
 
 # 9. ragTag for superscaffolding if relevant
 
+purpose: superscaffolding
 
 install [ragTag](https://github.com/malonge/RagTag) and run it if you have a good reference assembly for that
 
 
 # 10. run merqury
 
+purpose: evaluate quality using various metrics
+
 see scripts: 00_scripts/mercury.sh
 
 details are here: https://github.com/marbl/merqury/wiki
 
 some dependancies needed:
-* meryl
+* [meryl](https://github.com/marbl/meryl)
 * [R](https://www.r-project.org/) + install.packages(c("argparse", "ggplot2", "scales")) 
 * java
 * [bedtools](https://bedtools.readthedocs.io/en/latest/content/installation.html)
 
-# 11. Run quast
+# 11. Run [quast](https://quast.sourceforge.net/docs/manual.html#sec1)
 
-install through conda 
+install through pip or conda (pip install quast) 
 
 quast.py your.genome.fa
 
