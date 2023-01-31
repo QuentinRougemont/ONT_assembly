@@ -39,12 +39,9 @@ do
 
     # Align reads 1 step
     bwa mem -t "$NCPU" -R "$ID" "$GENOMEFOLDER"/"$GENOME" "$DATAFOLDER"/"$name" "$DATAFOLDER"/"$name2" 2> /dev/null | \
-	    samtools view -Sb -q 10 - > "$DATAFOLDER"/"${name%.fq.gz}".bam
-
+    	samtools view -Sb -q 10 - |\ 
     # Sort and index
-    samtools sort --threads "$NCPU" -o "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam \
-        "$DATAFOLDER"/"${name%.fq.gz}".bam
+    	samtools sort --threads "$NCPU" -o "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam -
 
     samtools index "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam
-    rm "$DATAFOLDER"/"${name%.fq.gz}".bam
 done
