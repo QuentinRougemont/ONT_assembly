@@ -5,11 +5,10 @@
 #SBATCH --mem=20G                           
                                              
 # Move to directory where job was submitted  
-cd $SLURM_SUBMIT_DIR                         
-
-source /local/env/envbwa-0.7.17.sh
-source /local/env/envgcc-9.3.0.sh
-conda activate /home/genouest/cnrs_umr5175/qrougemont/mes_envs/samtools1.15/
+#cd $SLURM_SUBMIT_DIR                         
+#source /local/env/envbwa-0.7.17.sh
+#source /local/env/envgcc-9.3.0.sh
+#conda activate /home/genouest/cnrs_umr5175/qrougemont/mes_envs/samtools1.15/
 
 BASE=$1
 # Global variables
@@ -39,8 +38,8 @@ do
     ID="@RG\tID:ind\tSM:ind\tPL:Illumina"
 
     # Align reads 1 step
-    bwa mem -t "$NCPU" -R "$ID" "$GENOMEFOLDER"/"$GENOME" "$DATAFOLDER"/"$name" "$DATAFOLDER"/"$name2" 2> /dev/null | samtools view -Sb -q 10 - > "$DATAFOLDER"/"${name%.fq.gz}".bam
-        #samtools view -Sb -q 20 -f 83 -f 163 -f 99 -f 147 - > "$DATAFOLDER"/"${name%.fq.gz}".bam
+    bwa mem -t "$NCPU" -R "$ID" "$GENOMEFOLDER"/"$GENOME" "$DATAFOLDER"/"$name" "$DATAFOLDER"/"$name2" 2> /dev/null | \
+	    samtools view -Sb -q 10 - > "$DATAFOLDER"/"${name%.fq.gz}".bam
 
     # Sort and index
     samtools sort --threads "$NCPU" -o "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam \
