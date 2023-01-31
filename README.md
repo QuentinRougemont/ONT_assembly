@@ -52,8 +52,8 @@ requires java:
 
 ## Different steps
 
-Data are stores in 01.RawData
-each species fastq are stores in different folder
+Data are stored in `01.RawData`
+each species fastq are stored in different folder
 fastq should be compressed  
 
 #  1. jellyfish and genome scope 
@@ -106,20 +106,26 @@ done
 
 # 3. run flye
 
-see script 00_scripts/02.flye.sh
+see  `00_scripts/02.flye.sh` adjust parameters following your needs
 
 
 # 4. align ONT read with Minimap to their references
 
+```
 for i in $(cat genome_list ) ; do ./00_scripts/03.minimap.sh $i ; done
+```
 
 (or launch these scripts with sbatch on SLURM or similar)
 
 
 # 5. run marginPolish
 
-cp ~/.software/marginpolish/allParams.np.microbial.r94-g305.json .
 
+dependencies: I run it through Docker singularity
+
+```
+cp ~/.software/marginpolish/allParams.np.microbial.r94-g305.json .
+```
 edit line 34 "chunkSize" and set it to the desired size (I used 5000 for fungus).
 
 `for i in $(cat genome_list ) ; do ./00_scripts/03.minimap.sh $i ; done `
@@ -166,9 +172,9 @@ details are here: https://github.com/marbl/merqury/wiki
 
 some dependancies needed:
 * meryl
-* R + packages argparse, ggplot2, scales 
+* [R](https://www.r-project.org/) + install.packages(c("argparse", "ggplot2", "scales")) 
 * java
-
+* [bedtools](https://bedtools.readthedocs.io/en/latest/content/installation.html)
 
 # 11. Run quast
 
@@ -179,4 +185,4 @@ quast.py your.genome.fa
 
 # 12. annotate the genomes
 
-see genome_annotation pipeline
+see genome_annotation [pipeline](https://github.com/QuentinRougemont/genome_annotation)
