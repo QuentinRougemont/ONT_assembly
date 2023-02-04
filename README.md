@@ -47,10 +47,12 @@ tested on Linux only
 
 requires java:
 
-`sudo apt install default-jre`
+`sudo apt install default-jre`  
 
 
-## Different steps
+
+## Different steps  
+
 
 Data are stored in `01.RawData`
 each species fastq are stored in different folder
@@ -205,3 +207,7 @@ quast.py your.genome.fa
 # 12. annotate the genomes
 
 see genome_annotation [pipeline](https://github.com/QuentinRougemont/genome_annotation)
+
+
+# To Do: 
+add single script for step 1 to 8
