@@ -19,7 +19,7 @@ cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
 echo running canu on $genome 
 
-cd 02.Filtered$genome
+cd 02.FilteredRaw/$genome
 
 pwd
 
