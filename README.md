@@ -98,6 +98,12 @@ for file in $(cat genome_list ) ; do
 	done 
 done
 
+#concatenate the results to make some plots:
+for i in $(cat genome_list ); do awk -F"\t" -v var=$i '{print var"\t"$2}' 00.length_distrib/$i/*.length.txt >> 00.length_distrib/all.length.txt ; done 
+
+Rscript 00_scripts/plot_length.R
+#this will produce plots so we can eventually customise the cuttoff in chopper (this could be changed for all genome).
+
 for genome in $(cat genome_list ) ; do 
 	mkdir -p 02.FilteredRaw/$genome
 	for fastq in $(ls 01.RawData/"$genome"/*fastq* ) ;   
