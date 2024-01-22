@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+#micro-script to compute length of raw data and trimm
+ 
+chmod +x ./00_scripts/awk_fastq_lenth.sh
+
+#all genomes must be stored in the folder 01.RawData
+
+cd 01.RawData
+ls -d * > ../genome_list
+cd ../
+
+for file in $(cat genome_list ) ; do 
+	for fastq in 01.RawData/"$file"/*gz ; do
+		./00_scripts/awk_fastq_lenth.sh "$file" "$fastq" ; 
+	done 
+done
+
+#concatenate the results to make some plots:
+for i in $(cat genome_list ); do awk -F"\t" -v var=$i '{print var"\t"$2}' 00.length_distrib/$i/*.length.txt >> 00.length_distrib/all.length.txt ; done 
+
+#plot: 
+Rscript 00_scripts/plot_length.R
+#this will produce plots so we can eventually customise the cuttoff in chopper (this could be changed for all genome).
+
+#trimm:
+for genome in $(cat genome_list ) ; do 
+	mkdir -p 02.FilteredRaw/$genome
+	for fastq in $(ls 01.RawData/"$genome"/*fastq* ) ;   
+	do
+	    name=$(basename $fastq);
+            #check compression
+            if file --mime-type "$fastq" | grep -q gzip$; then
+  		echo processing $name   ; 
+	        zcat $fastq | \
+			chopper -q 10 -l 900 --headcrop 50 |  \
+			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ; 
+           else
+                echo processing $name   ; 
+	        cat $fastq | \
+			chopper -q 10 -l 900 --headcrop 50 |  \
+			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq}".trimmed.fastq.gz ; 
+   
+            fi
+      done; 
+done 
+

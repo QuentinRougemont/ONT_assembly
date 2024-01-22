@@ -13,7 +13,9 @@ all can be installed without root - sometimes with conda
 
 [genomescope](https://github.com/schatzlab/genomescope)
 
-[nanofilter](https://github.com/wdecoster/nanofilt)
+[chopper](https://github.com/wdecoster/chopper)
+
+#[nanofilter](https://github.com/wdecoster/nanofilt) depreacted used chopper instead 
 
 [flye](https://github.com/fenderglass/Flye)
 
@@ -114,12 +116,12 @@ for genome in $(cat genome_list ) ; do
             if file --mime-type "$fastq" | grep -q gzip$; then
   		echo processing $name   ; 
 	        zcat $fastq | \
-			chopper -q 10 -l 900 |  \
+			chopper -q 10 -l 900 --headcrop 50 |  \
 			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ; 
            else
                 echo processing $name   ; 
 	        cat $fastq | \
-			chopper -q 10 -l 900 |  \
+			chopper -q 10 -l 900 --headcrop 50 |  \
 			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq}".trimmed.fastq.gz ; 
    
             fi
