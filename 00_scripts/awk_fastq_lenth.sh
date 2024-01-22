@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 #script to compute the length of a fasta
 #Author: QR
