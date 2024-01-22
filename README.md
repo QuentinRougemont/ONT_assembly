@@ -94,7 +94,7 @@ purpose: trimm read
 cp 01.RawData/genome_list .
 for file in $(cat genome_list ) ; do 
 	for fastq in 01.RawData/"$file"/*gz ; do
-		./awk_fastq_length2.sh "$file" "$fastq" ; 
+		./awk_fastq_lenth.sh "$file" "$fastq" ; 
 	done 
 done
 
@@ -105,7 +105,7 @@ for genome in $(cat genome_list ) ; do
 	    name=$(basename $fastq);
 	    echo processing $name   ; 
 	    zcat $fastq | \
-			NanoFilt -q7 -l 900 --headcrop 50 |   \
+			chopper -q 10 -l 900 |  \
 			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ;
       done; 
 done 
