@@ -17,7 +17,7 @@ LOG_FOLDER="LOG_FLYE/"
 mkdir $LOG_FOLDER 2>/dev/null
 cp $SCRIPT $LOG_FOLDER/"$TIMESTAMP"_"$NAME"
 
-echo running canu on $genome 
+echo running flye on $genome 
 
 cd 02.FilteredRaw/$genome
 
