@@ -100,13 +100,22 @@ done
 
 for genome in $(cat genome_list ) ; do 
 	mkdir -p 02.FilteredRaw/$genome
-	for fastq in $(ls 01.RawData/"$genome"/*fastq.gz ) ;   
+	for fastq in $(ls 01.RawData/"$genome"/*fastq* ) ;   
 	do
 	    name=$(basename $fastq);
-	    echo processing $name   ; 
-	    zcat $fastq | \
+            #check compression
+            if file --mime-type "$fastq" | grep -q gzip$; then
+  		echo processing $name   ; 
+	        zcat $fastq | \
 			chopper -q 10 -l 900 |  \
-			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ;
+			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ; 
+           else
+                echo processing $name   ; 
+	        cat $fastq | \
+			chopper -q 10 -l 900 |  \
+			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq}".trimmed.fastq.gz ; 
+   
+            fi
       done; 
 done 
 ``` 
