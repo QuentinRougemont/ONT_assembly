@@ -91,10 +91,11 @@ done
 purpose: trimm read
 
 ```sh
+chmod +x ./00_scripts/awk_fastq_lenth.sh
 cp 01.RawData/genome_list .
 for file in $(cat genome_list ) ; do 
 	for fastq in 01.RawData/"$file"/*gz ; do
-		./awk_fastq_lenth.sh "$file" "$fastq" ; 
+		./00_scripts/awk_fastq_lenth.sh "$file" "$fastq" ; 
 	done 
 done
 
