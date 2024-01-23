@@ -53,8 +53,8 @@ echo -e "\n\n"
 zcat genome.fastq.gz |sed -n '1~4s/^@/>@/p;2~4p'  |sed 's/ runid.*//' > genome.fasta
 
 #--------- step 3 -- insert NNNNN----------#
-fasta=genome.fasta
-masked_fasta=genome.masked.fasta
+fasta=rawreads.fasta
+masked_fasta=rawreads.masked.fasta
 
 #use bedtools maskfasta for our purpose: 
 #the file putative_contaminant.withnospecies_overlap.bed is generate from the above Rscript 
@@ -65,7 +65,7 @@ bedtools maskfasta -fi $fasta -bed putative_contaminant.withnospecies_overlap.be
 grep -A1 -Ff <(cut -f1 putative_contaminant.withnospecies_overlap.bed ) $fasta  > putative_contaminant.withnospecies_overlap.toblast.fa
 
 ./01.scripts/04.makeblastdb.sh $contam $contam
-./01.scripts/05.blast.sh  $fasta $contam 
+./01.scripts/05.blast.sh  putative_contaminant.withnospecies_overlap.toblast.fa $contam 
 
 #keep high quality blasts:
 grep -v "$species" blasts/putative_contaminant.withnospecies_overlap.toblast.fa."$species"_human_contam.fa |\
@@ -73,6 +73,6 @@ grep -v "$species" blasts/putative_contaminant.withnospecies_overlap.toblast.fa.
 	sort -k1  |uniq > putative_contaminant_from_blast.bed
 
 #use bedtools to re-insert additional NNNN :
-masked_fasta2="${fastq%.f*q*}".maskedfull.fasta
+masked_fasta2=rawreads.maskedfull.fasta
 
 bedtools maskfasta -fi $masked_fasta -bed putative_contaminant_from_blast.bed -fo "$masked_fasta2"
