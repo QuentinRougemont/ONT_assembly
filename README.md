@@ -15,7 +15,7 @@ all can be installed without root - sometimes with conda
 
 [chopper](https://github.com/wdecoster/chopper)
 
-#[nanofilter](https://github.com/wdecoster/nanofilt) depreacted used chopper instead 
+([nanofilter](https://github.com/wdecoster/nanofilt) depreacted used chopper instead) 
 
 [flye](https://github.com/fenderglass/Flye)
 
