@@ -1,7 +1,19 @@
 #!/bin/bash
-                                             
 
-base=$1
+#microscript to run bwa-mem
+
+if [ $# -ne 1  ]; then
+    echo "USAGE: $0 <base> input_basename"
+    echo "Expecting a name corresponding to the genome of your study species"
+    exit 1
+else
+    base=$1
+    echo "genome name : ${base}"
+    echo -e "\n"
+    echo running flye on $base 
+
+fi
+
 # Global variables
 basefolder="04.polished"/"$base"
 genome="$base".polished.fa      #genome from marginPolish 

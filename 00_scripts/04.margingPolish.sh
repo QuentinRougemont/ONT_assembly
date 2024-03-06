@@ -1,8 +1,17 @@
 #!/bin/bash
 
 #microscript for marginpolish
+if [ $# -ne 1  ]; then
+    echo "USAGE: $0 input basename"
+    echo "Expecting a name corresponding to the genome of your study species"
+    exit 1
+else
+    genome=$1
+    echo "genome name : ${genome}"
+    echo -e "\n"
+    echo running marginpolish on $genome 
 
-genome=$1 #name of the genome
+fi
 
 bam=03.alignment/"$genome".aligned.sorted.bam
 fasta=02.FilteredRaw/"$genome"_flye/assembly.fasta

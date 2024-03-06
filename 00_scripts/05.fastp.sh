@@ -3,9 +3,24 @@
 #microscript to run fastp
 
 # Global variables
-genome=$1
-length=120 #to be passed as a variable
-qual=30    #to be passed as a variable
+if [ $# -ne 3  ]; then
+    echo "USAGE: $0 <input_basename> <length> <qual>"
+    echo -e "Expecting the three following arguments: \n 
+    	\t 1: <input_basename> : a name corresponding to the genome of your study species\n
+	\t 2: <length> :  minimal length for read trimming \n
+        \t 3: <qual> : minimal read quality\n"
+    exit 1
+else
+    genome=$1
+    length=$2 #by default we could set it to 120
+    qual=$3   #by default we could set it to 30
+    echo "genome name : ${genome}"
+    echo -e "\n"
+    echo running fastp on $genome 
+    echo minimal length is $length
+    echo minimal quality is qual
+    echo -e "\n"
+fi
 
 
 input="01.RawData_illumina/$genome" #store your illumina data in this folder

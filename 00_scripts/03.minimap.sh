@@ -1,8 +1,17 @@
 #!/bin/bash
 
 #microscript to run minimap
+if [ $# -ne 1  ]; then
+    echo "USAGE: $0 input basename"
+    echo "Expecting a name corresponding to the genome of your study species"
+    exit 1
+else
+    input=$1
+    echo "genome name : ${input}"
+    echo -e "\n"
+    echo running minimap on $input 
 
-input=$1 #genome basename 
+fi
 ref=assembly.fasta
 
 

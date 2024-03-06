@@ -1,9 +1,21 @@
 #!/usr/bin/bash
 
 #micro-script to compute length of raw data and trimm
-qual=$1     #min qual in chopper (string)
-len=$2      #min length in chopper (string)
-headcrop=$3 #length of headcrop (string)
+if [ $# -ne 3  ]; then
+    echo "USAGE: $0 <qual> <len> <headcrop>"
+    echo -e "Expecting the three following arguments: \n 
+    	\t 1: <length> :  minimal length for read trimming \n
+        \t 2: <qual> : minimal read quality\n
+	\t 3: headcrop : headcrop for read trimmin"
+    exit 1
+else
+    len=$1 #by default we could set it to 900
+    qual=$2   #by default we could set it to 8
+    headcrop=$2   #by default we could set it to 50
+
+    echo 
+fi
+
 
 
 chmod +x ./00_scripts/awk_fastq_lenth.sh

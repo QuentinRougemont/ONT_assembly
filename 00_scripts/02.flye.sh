@@ -1,11 +1,17 @@
 #!/bin/bash
 
 #microscript to run flye 
+if [ $# -ne 1  ]; then
+    echo "USAGE: $0 input basename"
+    echo "Expecting a name corresponding to the genome of your study species"
+    exit 1
+else
+    genome=$1
+    echo "genome name : ${genome}"
+    echo -e "\n"
+    echo running flye on $genome 
 
-genome=$1 #name of the genome to assemble
-
-# Copy script as it was run                 
-echo running flye on $genome 
+fi
 
 cd 02.FilteredRaw/$genome
 

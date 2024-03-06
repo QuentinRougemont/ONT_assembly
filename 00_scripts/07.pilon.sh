@@ -2,7 +2,17 @@
 
 #microscript to run pilon
 
-base=$1
+if [ $# -ne 1  ]; then
+    echo "USAGE: $0 <base> input_basename"
+    echo "Expecting a name corresponding to the genome of your study species"
+    exit 1
+else
+    base=$1
+    echo "genome name : ${base}"
+    echo -e "\n"
+    echo running flye on $base 
+
+fi
 
 mkdir -p 05.pilon/$base
 
