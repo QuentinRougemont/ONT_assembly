@@ -14,14 +14,14 @@ cd 06.merqury/$genome
 
 #preliminary step: -- get K -- 
 #genome_size=30000000 #size of the genome is ~30 mb
-~/software/merqury-1.3/best_k.sh $genome_size
+bestK=$(~/software/merqury/best_k.sh $genome_size |tail -n1 )
 
 
 #step1: -- build k-mer dbs ---
-meryl k=17.34 count ../../02.Trimmed_illumina/$genome/*fq.gz output "$genome".meryl
+meryl k=$bestK count ../../02.Trimmed_illumina/$genome/*fq.gz output "$genome".meryl
 
 #step2:
-~/software/merqury-1.3/merqury.sh $genome.meryl ../../05.pilon/$genome/pilon.fasta  $genome > hifi.log
+~/software/merqury/merqury.sh $genome.meryl ../../05.pilon/$genome/pilon.fasta  $genome > hifi.log
 
 #step3 -- make some plot:
-~/software/merqury-1.3/eval/spectra-cn.sh "$genome".meryl/ ../../05.pilon/$genome/pilon.fasta "$genome".out
+~/software/merqury/eval/spectra-cn.sh "$genome".meryl/ ../../05.pilon/$genome/pilon.fasta "$genome".out

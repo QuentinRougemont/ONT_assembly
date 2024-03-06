@@ -15,8 +15,7 @@ fi
 
 ref=assembly.fasta
 
-
-mkdir 03.alignment 2>/dev/null
+mkdir 03.alignment/$input 2>/dev/null
 
 minimap2 -ax map-ont 02.FilteredRaw/$input/"$input"_flye/$ref  02.FilteredRaw/$input/*.fastq.gz |\
 	 samtools view -Sb - |samtools sort - > 03.alignment/$input/"$input".aligned.sorted.bam
