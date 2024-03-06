@@ -32,4 +32,4 @@ zcat 03.alignment/"$input"/depth.txt.gz |awk -F'\t' ' { sum[$1] += $3; N[$1]++ }
 
 #make a nice plot of depth along the genome : 
 cd 03.alignment/$input
-Rscript ../00_scripts/plot_depth.R 
+Rscript ../../00_scripts/plot_depth.R 

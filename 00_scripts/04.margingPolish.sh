@@ -9,13 +9,12 @@ else
     genome=$1
     echo "genome name : ${genome}"
     echo -e "\n"
-    echo running marginpolish on $genome 
-
+    echo -e "running marginpolish on $genome\n" 
 fi
 
 bam=03.alignment/"$genome".aligned.sorted.bam
 fasta=02.FilteredRaw/"$genome"_flye/assembly.fasta
-model=allParams.np.microbial.r94-g305.json
+model=param/allParams.np.microbial.r94-g305.json
 
 
 mkdir -p 04.polished/$genome 2>/dev/null
