@@ -1,29 +1,25 @@
 #!/bin/bash
-##SBATCH --job-name=marginPolish        
-##SBATCH --output=log_marginPolish-%J.out                  
-##SBATCH --cpus-per-task=8                   
-##SBATCH --mem=10G                           
-                                             
-# Move to directory where job was submitted  
-#cd $SLURM_SUBMIT_DIR                         
 
-input=$1 #M_Sap_1270_A2
-bam="$input".aligned.sorted.bam
-fasta="$input"_flye/assembly.fasta
+#microscript for marginpolish
+
+genome=$1 #name of the genome
+
+bam=03.alignment/"$genome".aligned.sorted.bam
+fasta=02.FilteredRaw/"$genome"_flye/assembly.fasta
 model=allParams.np.microbial.r94-g305.json
 
-input=$1
-ref=assembly.fasta
 
-cd 03.genome/$input
-cp 03.genome/$model .
+mkdir -p 04.polished/$genome 2>/dev/null
+
+cd 04.polished/$genome
+cp /path/to/$model .
 
 samtools index $bam
 
-singularity exec -B /path/to/03.genome/$input:/path/to/03.genome/$input  \
+singularity exec -B /path/to/03.genome/$genome:/path/to/03.genome/$genome  \
 	docker:margin_polish:latest marginPolish \
 	$bam \
 	$fasta \
 	$model \
-	-t 8 -o "${input}".polished 
+	-t 8 -o "${genome}".polished 
 	

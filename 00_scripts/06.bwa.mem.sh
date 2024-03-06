@@ -1,20 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=bwa                
-#SBATCH --output=log_bwa-%J.out                  
-#SBATCH --cpus-per-task=8                   
-#SBATCH --mem=20G                           
                                              
-# Move to directory where job was submitted  
-#cd $SLURM_SUBMIT_DIR                         
-#source /local/env/envbwa-0.7.17.sh
-#source /local/env/envgcc-9.3.0.sh
-#conda activate /home/genouest/cnrs_umr5175/qrougemont/mes_envs/samtools1.15/
 
-BASE=$1
+genome=$1
 # Global variables
-GENOMEFOLDER="03.genome"/"$BASE"
-GENOME="$BASE".polished.fa #$1 #"genome.fasta"
-DATAFOLDER="02.Trimmed_illumina/$BASE"
+genomefolder="03.genome"/"$genome"
+GENOME="$genome".polished.fa #$1 #"genome.fasta"
+datafolder="02.Trimmed_illumina/$genome"
 NCPU="8"
 
 # Test if user specified a number of CPUs
@@ -24,10 +15,10 @@ then
 fi
 
 # Index genome if not alread done
-#bwa index -p "$GENOMEFOLDER"/"${GENOME%.fa}" "$GENOMEFOLDER"/"$GENOME"
-bwa index  "$GENOMEFOLDER"/"$GENOME"
+#bwa index -p "$genomefolder"/"${GENOME%.fa}" "$genomefolder"/"$GENOME"
+bwa index  "$genomefolder"/"$GENOME"
 
-for file in $(ls -1 "$DATAFOLDER"/*trimmed_1.fq.gz)
+for file in $(ls -1 "$datafolder"/*trimmed_1.fq.gz)
 do
     # Name of uncompressed file
     file2=$(echo "$file" | perl -pe 's/_1\.fq\.gz/_2.fq.gz/')
@@ -38,10 +29,10 @@ do
     ID="@RG\tID:ind\tSM:ind\tPL:Illumina"
 
     # Align reads 1 step
-    bwa mem -t "$NCPU" -R "$ID" "$GENOMEFOLDER"/"$GENOME" "$DATAFOLDER"/"$name" "$DATAFOLDER"/"$name2" 2> /dev/null | \
+    bwa mem -t "$NCPU" -R "$ID" "$genomefolder"/"$GENOME" "$datafolder"/"$name" "$datafolder"/"$name2" 2> /dev/null | \
     	samtools view -Sb -q 10 - |\ 
     # Sort and index
-    	samtools sort --threads "$NCPU" -o "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam -
+    	samtools sort --threads "$NCPU" -o "$datafolder"/"${name%.fq.gz}".sorted.bam -
 
-    samtools index "$DATAFOLDER"/"${name%.fq.gz}".sorted.bam
+    samtools index "$datafolder"/"${name%.fq.gz}".sorted.bam
 done

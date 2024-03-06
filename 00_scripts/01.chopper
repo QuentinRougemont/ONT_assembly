@@ -1,13 +1,17 @@
 #!/usr/bin/bash
 
 #micro-script to compute length of raw data and trimm
- 
+qual=$1     #min qual in chopper (string)
+len=$2      #min length in chopper (string)
+headcrop=$3 #length of headcrop (string)
+
+
 chmod +x ./00_scripts/awk_fastq_lenth.sh
 
 #all genomes must be stored in the folder 01.RawData
 
 cd 01.RawData
-ls -d * > ../genome_list
+ls -d */ |grep -v "Readme" > ../genome_list
 cd ../
 
 for file in $(cat genome_list ) ; do 
@@ -33,12 +37,12 @@ for genome in $(cat genome_list ) ; do
             if file --mime-type "$fastq" | grep -q gzip$; then
   		echo processing $name   ; 
 	        zcat $fastq | \
-			chopper -q 10 -l 900 --headcrop 50 |  \
+			chopper -q "$qual" -l "$len" --headcrop "$headcrop" |  \
 			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq.gz}".trimmed.fastq.gz ; 
            else
                 echo processing $name   ; 
 	        cat $fastq | \
-			chopper -q 10 -l 900 --headcrop 50 |  \
+			chopper -q "$qual" -l "$len" --headcrop "$headcrop" |  \
 			          gzip > 02.FilteredRaw/"$genome"/"${name%.fastq}".trimmed.fastq.gz ; 
    
             fi

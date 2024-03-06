@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#microscript to run flye 
+
 genome=$1 #name of the genome to assemble
 
 # Copy script as it was run                 
