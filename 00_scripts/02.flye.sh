@@ -2,7 +2,7 @@
 
 #microscript to run flye 
 if [ $# -ne 1  ]; then
-    echo "USAGE: $0 input basename"
+    echo "USAGE: $0 <input_basename>"
     echo "Expecting a name corresponding to the genome of your study species"
     exit 1
 else

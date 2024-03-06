@@ -18,7 +18,7 @@ else
     echo -e "\n"
     echo running fastp on $genome 
     echo minimal length is $length
-    echo minimal quality is qual
+    echo minimal quality is $qual
     echo -e "\n"
 fi
 

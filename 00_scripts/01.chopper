@@ -9,13 +9,16 @@ if [ $# -ne 3  ]; then
 	\t 3: headcrop : headcrop for read trimmin"
     exit 1
 else
-    len=$1 #by default we could set it to 900
-    qual=$2   #by default we could set it to 8
+    len=$1        #by default we could set it to 900
+    qual=$2       #by default we could set it to 8
     headcrop=$2   #by default we could set it to 50
 
-    echo 
+    echo parameters for chopper: 
+    echo minimal length is $len
+    echo minimal quality is $qual
+    echo headcrop is $headcrop
+    echo -e "\n" 
 fi
-
 
 
 chmod +x ./00_scripts/awk_fastq_lenth.sh
@@ -36,9 +39,11 @@ done
 for i in $(cat genome_list ); do awk -F"\t" -v var=$i '{print var"\t"$2}' 00.length_distrib/$i/*.length.txt >> 00.length_distrib/all.length.txt ; done 
 
 #plot: 
+echo "--- plotting length of sequence for each genome ----"
 Rscript 00_scripts/plot_length.R
 #this will produce plots so we can eventually customise the cuttoff in chopper (this could be changed for all genome).
 
+echo "--- trimming with chopper ---"
 #trimm:
 for genome in $(cat genome_list ) ; do 
 	mkdir -p 02.FilteredRaw/$genome
