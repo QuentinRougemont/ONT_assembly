@@ -19,7 +19,7 @@ mkdir -p 05.pilon/$base
 genome=04.genome/"$base"/"$base".polished.fa
 bam=02.Trimmed_illumina/$base/"$base"_trimmed_1.sorted.bam
 
-java -Xms100g -Xmx210g -jar 01.scripts/pilon-1.24.jar \
+java -Xms100g -Xmx210g -jar 00_scripts/pilon-1.24.jar \
 	--genome $genome \
 	--frags "$bam" \
 	--outdir 05.pilon/$base/ \

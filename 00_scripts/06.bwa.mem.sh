@@ -28,7 +28,7 @@ fi
 
 # Index base if not alread done
 #bwa index -p "$basefolder"/"${genome%.fa}" "$basefolder"/"$genome"
-bwa index  "$basefolder"/"$genome"
+bwa-mem2 index  "$basefolder"/"$genome"
 
 for file in $(ls -1 "$datafolder"/*trimmed_1.fq.gz)
 do
@@ -41,7 +41,7 @@ do
     ID="@RG\tID:ind\tSM:ind\tPL:Illumina"
 
     # Align reads 1 step
-    bwa mem -t "$NCPU" -R "$ID" "$basefolder"/"$genome" "$datafolder"/"$name" "$datafolder"/"$name2" 2> /dev/null | \
+    bwa-mem2 mem -t "$NCPU" -R "$ID" "$basefolder"/"$genome" "$datafolder"/"$name" "$datafolder"/"$name2" 2> /dev/null | \
     	samtools view -Sb -q 10 - |\ 
     # Sort and index
     	samtools sort --threads "$NCPU" -o "$datafolder"/"${name%.fq.gz}".sorted.bam -
